@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Marvin 🤍</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121214;
+            --container-bg: #1e1e24;
+            --accent-pink: #ff6584;
+            --accent-hover: #ff476f;
+            --text-color: #f8f9fa;
+            --text-muted: #adb5bd;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            font-family: 'Quicksand', sans-serif;
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background-image: radial-gradient(circle, #22222c 10%, #121214 90%);
+        }
+
+        .card {
+            background: var(--container-bg);
+            border: 2px solid #2d2d38;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .pixel-art {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            margin-bottom: 20px;
+            color: var(--accent-pink);
+            background: #282833;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px dashed var(--accent-pink);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            min-height: 50px;
+        }
+
+        button {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #yes-btn {
+            background-color: var(--accent-pink);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 101, 132, 0.4);
+        }
+
+        #yes-btn:hover {
+            background-color: var(--accent-hover);
+            transform: scale(1.05);
+        }
+
+        #no-btn {
+            background-color: #2d2d38;
+            color: var(--text-muted);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: #282833;
+            color: var(--text-color);
+            border: 1px solid #3f3f4e;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover, .option-btn.selected {
+            background: var(--accent-pink);
+            border-color: var(--accent-pink);
+            color: white;
+        }
+
+        input[type="date"] {
+            background: #282833;
+            border: 1px solid #3f3f4e;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            width: 80%;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .note-box {
+            background: #282833;
+            border: 1px solid var(--accent-pink);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .note-box p {
+            margin: 0 0 10px 0;
+        }
+
+        .note-box .signature {
+            text-align: right;
+            font-weight: bold;
+            color: var(--accent-pink);
+            margin-top: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="main-card">
+        <div class="pixel-art">₍ᐢ- ̫-ᐢ₎ ♡</div>
+        <h1 id="question-text">Hi Marvin, will you go out with me?</h1>
+        <div class="buttons" id="initial-buttons">
+            <button id="yes-btn" onclick="goToStep('date-picker')">YES!</button>
+            <button id="no-btn" onmouseover="moveNoButton()" onclick="moveNoButton()">No</button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 'question';
+        let selectedDate = '';
+        let selectedActivity = '';
+
+        function moveNoButton() {
+            const noBtn = document.getElementById('no-btn');
+            const x = Math.random() * 150 - 75;
+            const y = Math.random() * 100 - 50;
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function goToStep(step) {
+            const card = document.getElementById('main-card');
+            
+            if (step === 'date-picker') {
+                card.innerHTML = `
+                    <div class="pixel-art">🗓️✨</div>
+                    <h1>PICK A DATE</h1>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Choose a day for our little plan.</p>
+                    <input type="date" id="date-input"><br>
+                    <button id="yes-btn" onclick="saveDate()">CONTINUE ➔</button>
+                `;
+            } else if (step === 'activities') {
+                card.innerHTML = `
+                    <div class="pixel-art">☕✨</div>
+                    <h1>WHAT WOULD YOU LIKE TO DO?</h1>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="selectActivity(this, 'Dinner Date')">Dinner Date</button>
+                        <button class="option-btn" onclick="selectActivity(this, 'Movie Night')">Movie Night</button>
+                        <button class="option-btn" onclick="selectActivity(this, 'Coffee & Walk')">Coffee & Walk</button>
+                        <button class="option-btn" onclick="selectActivity(this, 'Picnic')">Picnic</button>
+                    </div>
+                    <button id="yes-btn" onclick="showSummary()">LOCK IT IN</button>
+                `;
+            } else if (step === 'summary') {
+                card.innerHTML = `
+                    <div class="pixel-art">🤍🤎</div>
+                    <h1>IT'S A DATE!</h1>
+                    <div style="background: #282833; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; text-align: left;">
+                        <p><strong>DATE:</strong> ${selectedDate}</p>
+                        <p><strong>ACTIVITY:</strong> ${selectedActivity}</p>
+                    </div>
+                    <button id="yes-btn" onclick="showNote()">PRESS TO CONTINUE</button>
+                `;
+            } else if (step === 'note') {
+                card.innerHTML = `
+                    <div class="pixel-art">💌</div>
+                    <div class="note-box">
+                        <p>you're really cute no matter what. don't let anyone tell you any different, okay?</p>
+                        <p>you make every ordinary day feel special.</p>
+                        <p>today and every day, I celebrate you and us.</p>
+                        <div class="signature">xoxo, <br>Rocelyn</div>
+                    </div>
+                `;
+            }
+        }
+
+        function saveDate() {
+            const input = document.getElementById('date-input').value;
+            if (!input) {
+                alert('Please pick a date first!');
+                return;
+            }
+            selectedDate = input;
+            goToStep('activities');
+        }
+
+        function selectActivity(btn, activity) {
+            document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedActivity = activity;
+        }
+
+        function showSummary() {
+            if (!selectedActivity) {
+                alert('Please pick an activity first!');
+                return;
+            }
+            goToStep('summary');
+        }
+
+        function showNote() {
+            goToStep('note');
+        }
+    </script>
+</body>
+  </html>
